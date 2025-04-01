@@ -5,3 +5,4 @@ tiktoken
 faiss-cpu
 sentence-transformers
 gtts
+langchain
