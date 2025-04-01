@@ -1,20 +1,15 @@
-import os
 import google.generativeai as genai
-
 import streamlit as st
 
-
-# Initialize Gemini
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-
 @st.cache_resource
-def load_model():
+def load_model(api_key: str):
+    if not api_key:
+        raise KeyError("GEMINI_API_KEY must be provided.")
+    # Configure the Gemini API using the provided API key
+    genai.configure(api_key=api_key)
     return genai.GenerativeModel("gemini-1.5-flash-latest")
 
-model = load_model()
-
-# Summarize Contract with Age + Context
-def summarize_contract(text, age=25, context=""):
+def summarize_contract(model, text, age=25, context=""):
     prompt = f"""
 You are a helpful legal assistant. Explain the following legal document in plain English to a {age}-year-old.
 Context: {context}
@@ -31,7 +26,7 @@ Legal Document:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f" Error during summarization: {e}"
+        return f"Error during summarization: {e}"
 
 def answer_question(model, question, text, age=25, context=""):
     prompt = f"""

@@ -1,12 +1,20 @@
 import streamlit as st
 import os
 
-
+# Set page configuration
 st.set_page_config(page_title="LegalLens AI", layout="wide")
 
+# Retrieve the API key from st.secrets in app.py
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
+except KeyError as e:
+    st.error("GEMINI_API_KEY is not set in your secrets. Please add it to your .streamlit/secrets.toml file or set it in your Streamlit Cloud dashboard.")
+    st.stop()
 
+# Import functions from backend and initialize the model using the provided API key
 from backend.document_parser import extract_text_from_file
 from backend.llm_processor import (
+    load_model,
     summarize_contract,
     answer_question,
     generate_what_if_scenarios,
@@ -14,11 +22,12 @@ from backend.llm_processor import (
     generate_clause_breakdown
 )
 from backend.rag_pipeline import get_glossary_context
-from utils.helpers import generate_audio, clean_llm_markdown
+from utils.helpers import clean_llm_markdown
 
-# --- Streamlit App --- #
-st.set_page_config(page_title="LegalLens AI", layout="wide")
+# Load the model with the API key
+model = load_model(api_key)
 
+# Custom styling for the app
 st.markdown("""
     <style>
     /* General font and smoothing */
@@ -26,10 +35,8 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
         -webkit-font-smoothing: antialiased;
     }
-
     /* Hide Streamlit header/footer */
     #MainMenu, footer {visibility: hidden;}
-
     /* Card-style shadows for buttons and inputs */
     .stButton > button {
         border-radius: 10px;
@@ -40,14 +47,12 @@ st.markdown("""
         box-shadow: 0 4px 14px rgba(0,0,0,0.1);
         transition: all 0.2s ease-in-out;
     }
-
     .stButton > button:hover {
         background-color: #00cfd1;
         color: #121212;
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
-
     /* Input fields */
     .stTextInput > div > input,
     .stTextArea textarea {
@@ -57,7 +62,6 @@ st.markdown("""
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         padding: 0.6rem;
     }
-
     /* Expander style */
     details summary {
         font-weight: 600;
@@ -66,13 +70,11 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-
     /* Subheader spacing */
     .stSubheader {
         margin-top: 2rem;
         font-size: 1.4rem;
     }
-
     /* Section containers (optional) */
     .stMarkdown {
         background-color: #ffffff;
@@ -84,13 +86,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
-
-
 st.title("LegalLens AI")
 st.write("Understand your legal documents in plain English...")
 
-# Session state setup
+# Initialize session state
 if "contract_text" not in st.session_state:
     st.session_state["contract_text"] = ""
 if "user_age" not in st.session_state:
@@ -98,10 +97,11 @@ if "user_age" not in st.session_state:
 if "user_context" not in st.session_state:
     st.session_state["user_context"] = ""
 
-# Sidebar input
+# Sidebar inputs
 age = st.sidebar.number_input("Your Age", min_value=10, max_value=100, value=25)
 context = st.sidebar.text_area("Context (optional)", placeholder="e.g., I'm a student...")
 
+# File uploader for contracts
 uploaded_file = st.file_uploader("Upload your contract (PDF or TXT)", type=["pdf", "txt"])
 
 if uploaded_file:
