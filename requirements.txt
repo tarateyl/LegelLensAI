@@ -1,0 +1,7 @@
+streamlit
+google-generativeai
+PyMuPDF
+tiktoken
+faiss-cpu
+sentence-transformers
+gtts

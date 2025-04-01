@@ -1,0 +1,134 @@
+Arbitration:
+A method of resolving disputes outside the courts, where a neutral third party makes a binding decision.
+
+Confidentiality Agreement:
+A legal contract that restricts one party from disclosing information learned during a partnership or transaction.
+
+Consideration:
+Something of value exchanged between parties, which is required to make a contract legally binding.
+
+Contract:
+A legally enforceable agreement between two or more parties with mutual obligations.
+
+Indemnification:
+An agreement where one party agrees to compensate another for certain damages or losses.
+
+Jurisdiction:
+The legal authority of a court to hear and decide a case, usually defined by geographic area or type of case.
+
+Liability:
+Legal responsibility for one's actions or omissions, which may result in being subject to a lawsuit or legal penalty.
+
+Non-compete Clause:
+A clause in a contract that restricts a party (usually an employee) from working for a competitor for a certain period.
+
+Severability:
+A clause that allows the rest of the contract to remain valid even if one part is found unenforceable.
+
+Termination Clause:
+Outlines how and under what conditions a contract may be ended by either party.
+
+Waiver:
+When a party voluntarily gives up a legal right, usually in writing.
+
+Force Majeure:
+A clause that frees both parties from obligation if extraordinary events prevent contract fulfillment (e.g. natural disasters, war).
+
+Governing Law:
+Specifies which state's or country's laws will be used to interpret and enforce the contract.
+
+Assignment:
+A provision that states whether the rights and obligations under the contract can be transferred to another party.
+
+Entire Agreement:
+A clause stating that the contract represents the complete and final agreement between the parties.
+
+Amendment:
+A formal change or addition to a contract.
+
+Breach of Contract:
+Occurs when one party fails to fulfill their obligations under the agreement.
+
+Due Diligence:
+The investigation and evaluation of a business or person before entering into a contract.
+
+Enforceability:
+Refers to whether the terms of a contract can be legally upheld in court.
+
+Good Faith:
+An expectation that parties will deal honestly and fairly with each other during the execution of a contract.
+
+Intellectual Property (IP):
+Creations of the mind, such as inventions, literary and artistic works, designs, symbols, and names used in commerce.
+
+Mediation:
+A process where a neutral third party helps resolve a dispute by facilitating discussion but does not issue a binding decision.
+
+Notice:
+A clause explaining how the parties must notify each other of important events or changes.
+
+Parties:
+The individuals or organizations entering into a contract.
+
+Representation and Warranty:
+Statements of fact and assurances made by parties entering into a contract.
+
+Statute of Limitations:
+The time period in which a lawsuit must be filed after a legal claim arises.
+
+Third-party Beneficiary:
+Someone who, although not a direct party to a contract, stands to benefit from it.
+
+Unilateral Contract:
+A contract in which only one party makes a promise or undertakes a duty.
+
+Void Contract:
+A contract that is not legally enforceable from the outset.
+
+Mutual Consent:
+When all parties agree to the terms of the contract.
+
+Contrato de Arrendamiento:
+A rental agreement in Spain that defines the obligations of the landlord and tenant, including rent, deposit, and termination terms. Governed by the Ley de Arrendamientos Urbanos (LAU).
+
+Fianza:
+A security deposit paid by the tenant, usually equivalent to one or two months of rent. It is mandatory and must be returned at the end of the lease unless damages occur.
+
+Ley de Arrendamientos Urbanos (LAU):
+The Urban Leases Law that governs rental agreements for housing and commercial use in Spain. It defines rules on duration, renewal, termination, and rent updates.
+
+Empadronamiento:
+The official registration of a resident’s address with the local municipal registry (padrón). It is often required for legal residence and accessing public services.
+
+Despido Improcedente:
+Unfair dismissal. Under Spanish labor law, if a dismissal is not justified, the employee may be entitled to compensation or reinstatement.
+
+Indemnización por Despido:
+Compensation paid to an employee upon termination, depending on the type of dismissal (objective, disciplinary, etc.).
+
+Contrato Temporal:
+A fixed-term employment contract that must follow strict legal conditions. If abused, it may be reclassified as indefinite.
+
+Cotización a la Seguridad Social:
+The mandatory contributions to Spain’s Social Security system, made by both employers and employees, which fund pensions, healthcare, and unemployment benefits.
+
+Convenio Colectivo:
+A collective bargaining agreement that governs working conditions for a specific industry or region. It supplements general labor laws.
+
+NIE (Número de Identificación de Extranjero):
+A unique ID number required for foreigners in Spain to carry out legal activities such as signing contracts, working, or opening a bank account.
+
+Cláusula de Penalización:
+A penalty clause in Spanish contracts that establishes fines or charges for early termination or breach of contract.
+
+IVA (Impuesto sobre el Valor Añadido):
+Value-added tax in Spain. Contracts involving services or goods may include or refer to IVA, typically 21% for general goods.
+
+Notario:
+A public official who certifies legal documents such as property deeds, wills, and powers of attorney. Often required in real estate and inheritance procedures in Spain.
+
+Registro de la Propiedad:
+The Property Registry where ownership of real estate is officially recorded. Registration is required for legal security in property transactions.
+
+Vivienda Habitual:
+Refers to a person’s main residence in Spain. It has specific tax implications and protections under Spanish law.
