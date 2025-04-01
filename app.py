@@ -1,13 +1,10 @@
 import streamlit as st
 import os
-<<<<<<< HEAD
-=======
 
 
 st.set_page_config(page_title="LegalLens AI", layout="wide")
 
 
->>>>>>> 2036bb5 (first commit)
 from backend.document_parser import extract_text_from_file
 from backend.llm_processor import (
     summarize_contract,
