@@ -4,11 +4,12 @@ import os
 # Set page configuration
 st.set_page_config(page_title="LegalLens AI", layout="wide")
 
-# Retrieve the API key from st.secrets in app.py
+# Retrieve API keys from st.secrets
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
+    serpapi_key = st.secrets["SERPAPI_KEY"]
 except KeyError as e:
-    st.error("GEMINI_API_KEY is not set in your secrets. Please add it to your .streamlit/secrets.toml file or set it in your Streamlit Cloud dashboard.")
+    st.error("API keys are not set in your secrets. Please add GEMINI_API_KEY and SERPAPI_KEY to your .streamlit/secrets.toml file or set them in your Streamlit Cloud dashboard.")
     st.stop()
 
 # Import functions from backend and initialize the model using the provided API key
@@ -21,7 +22,7 @@ from backend.llm_processor import (
     generate_red_flags,
     generate_clause_breakdown
 )
-from backend.rag_pipeline import get_glossary_context
+from backend.rag_pipeline import get_combined_context
 from utils.helpers import clean_llm_markdown
 
 # Load the model with the API key
@@ -99,7 +100,7 @@ if "user_context" not in st.session_state:
 
 # Sidebar inputs
 age = st.sidebar.number_input("Your Age", min_value=10, max_value=100, value=25)
-context = st.sidebar.text_area("Context (optional)", placeholder="e.g., I'm a student...")
+context = st.sidebar.text_area("Context (optional)", placeholder="e.g., I'm a student signing a lease...")
 
 # File uploader for contracts
 uploaded_file = st.file_uploader("Upload your contract (PDF or TXT)", type=["pdf", "txt"])
@@ -114,37 +115,87 @@ if uploaded_file:
     if raw_text:
         st.subheader("Document Extracted")
 
+        # Helper function to generate a concise query from the document text
+        def generate_document_query(raw_text, task, max_length=50):
+            # Take the first few words of the document as a base query
+            words = raw_text.split()[:10]
+            base_query = " ".join(words)
+            # Add task-specific context
+            if task == "summarize":
+                return f"summarize legal document {base_query}"
+            elif task == "what_if":
+                return f"what if scenarios for legal contract {base_query}"
+            elif task == "red_flags":
+                return f"red flags in legal contract {base_query}"
+            elif task == "clause_breakdown":
+                return f"clause breakdown of legal contract {base_query}"
+            return base_query
+
         if st.button("Summarize This Document"):
             with st.spinner("Summarizing..."):
-                glossary = get_glossary_context(raw_text)
-                summary = summarize_contract(model, raw_text + "\n\n" + glossary, age=age, context=context)
+                # Generate a targeted query for summarization
+                search_query = generate_document_query(raw_text, "summarize")
+                if context:
+                    search_query += f" {context}"
+                combined_context = get_combined_context(search_query)
+                summary = summarize_contract(model, raw_text, age=age, context=context + "\n\n" + combined_context)
                 st.success("Summary Ready")
                 st.markdown(clean_llm_markdown(summary))
+                with st.expander("View Context"):
+                    st.write(combined_context)
 
         if st.button("What If Simulator"):
             with st.spinner("Simulating scenarios..."):
-                what_if = generate_what_if_scenarios(model, raw_text, age=age, context=context)
+                # Generate a targeted query for what-if scenarios
+                search_query = generate_document_query(raw_text, "what_if")
+                if context:
+                    search_query += f" {context}"
+                combined_context = get_combined_context(search_query)
+                what_if = generate_what_if_scenarios(model, raw_text, age=age, context=context + "\n\n" + combined_context)
                 st.subheader("What If Scenarios")
                 st.markdown(clean_llm_markdown(what_if))
+                with st.expander("View Context"):
+                    st.write(combined_context)
 
         if st.button("Red Flag Radar"):
             with st.spinner("Scanning..."):
-                red_flags = generate_red_flags(model, raw_text, age=age, context=context)
+                # Generate a targeted query for red flags
+                search_query = generate_document_query(raw_text, "red_flags")
+                if context:
+                    search_query += f" {context}"
+                combined_context = get_combined_context(search_query)
+                red_flags = generate_red_flags(model, raw_text, age=age, context=context + "\n\n" + combined_context)
                 st.subheader("Red Flag Radar")
                 st.markdown(clean_llm_markdown(red_flags))
+                with st.expander("View Context"):
+                    st.write(combined_context)
 
         if st.button("Clause-by-Clause Breakdown"):
             with st.spinner("Breaking down..."):
-                breakdown = generate_clause_breakdown(model, raw_text, age=age, context=context)
+                # Generate a targeted query for clause breakdown
+                search_query = generate_document_query(raw_text, "clause_breakdown")
+                if context:
+                    search_query += f" {context}"
+                combined_context = get_combined_context(search_query)
+                breakdown = generate_clause_breakdown(model, raw_text, age=age, context=context + "\n\n" + combined_context)
                 st.subheader("Clause-by-Clause Breakdown")
                 st.markdown(clean_llm_markdown(breakdown))
+                with st.expander("View Context"):
+                    st.write(combined_context)
 
         st.subheader("Still Confused? Ask Me Anything")
         user_question = st.text_input("Ask a legal question...")
         if user_question:
             with st.spinner("Thinking..."):
-                glossary = get_glossary_context(user_question)
-                answer = answer_question(model, user_question + "\n\n" + glossary, raw_text, age=age, context=context)
+                # Enhance the user question with context for better search
+                search_query = user_question
+                if context:
+                    search_query += f" {context}"
+                search_query += " in legal contracts"
+                combined_context = get_combined_context(search_query)
+                answer = answer_question(model, user_question, raw_text, age=age, context=context + "\n\n" + combined_context)
                 st.info(answer)
+                with st.expander("View Context"):
+                    st.write(combined_context)
 else:
     st.info("Please upload a contract to begin.")
