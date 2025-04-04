@@ -1,3 +1,4 @@
+# app.py
 import streamlit as st
 import os
 
@@ -100,7 +101,11 @@ if "user_context" not in st.session_state:
 
 # Sidebar inputs
 age = st.sidebar.number_input("Your Age", min_value=10, max_value=100, value=25)
-context = st.sidebar.text_area("Context (optional)", placeholder="e.g., I'm a student signing a lease...")
+context = st.sidebar.text_area("Context (optional)", placeholder="e.g., I'm a student signing a lease...", value=st.session_state["user_context"])
+if st.sidebar.button("Save Context"):
+    st.session_state["user_age"] = age
+    st.session_state["user_context"] = context
+    st.sidebar.success("Context saved!")
 
 # File uploader for contracts
 uploaded_file = st.file_uploader("Upload your contract (PDF or TXT)", type=["pdf", "txt"])
@@ -109,6 +114,7 @@ if uploaded_file:
     with st.spinner("Extracting text from document..."):
         raw_text = extract_text_from_file(uploaded_file)
         st.session_state["contract_text"] = raw_text
+        # Update session state with the latest age and context when a file is uploaded
         st.session_state["user_age"] = age
         st.session_state["user_context"] = context
 
